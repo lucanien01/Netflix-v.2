@@ -4,7 +4,6 @@ import dk.easv.mrs.BLL.MovieManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.Collections;
 import java.util.List;
 
 public class MovieModel {
@@ -36,9 +35,12 @@ public class MovieModel {
 
     public void updateMovie(Movie updatedMovie) throws Exception {
         movieManager.updateMovie(updatedMovie);
+        int index = moviesToBeViewed.indexOf(updatedMovie);
+        if(index != -1) moviesToBeViewed.set(index, updatedMovie);
     }
 
-    public void deleteMovie(Movie deletedMovie) throws Exception {
-        movieManager.deleteMovie(deletedMovie);
+    public void deleteMovie(Movie selectedMovie) throws Exception {
+        movieManager.deleteMovie(selectedMovie);
+        moviesToBeViewed.remove(selectedMovie);
     }
 }

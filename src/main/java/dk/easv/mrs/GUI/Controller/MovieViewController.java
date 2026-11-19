@@ -65,41 +65,48 @@ public class MovieViewController implements Initializable {
         alert.showAndWait();
     }
 
-    public void handleClickCreate(ActionEvent actionEvent) throws Exception {
-        String mTitle = txtMovieCreateTitle.getText();
-        int mYear = Integer.parseInt(txtMovieCreateYear.getText());
-        try{
-            movieModel.createMovie(new Movie(-1, mYear, mTitle));
-        } catch (Exception e) {
-            displayError(e);
+    public void handleClickCreate(ActionEvent actionEvent) {
+        // get data from front-end
+
+        if (!txtMovieCreateTitle.getText().isEmpty() &&
+                !txtMovieCreateTitle.getText().isEmpty()) {
+
+            String title = txtMovieCreateTitle.getText();
+            int year = Integer.parseInt(txtMovieCreateYear.getText());
+
+            Movie newMovie = new Movie(-1, year, title);
+
+            try {
+                movieModel.createMovie(newMovie);
+            } catch (Exception err) {
+                displayError(err);
+            }
+        }
+    }
+
+    public void handleClickDelete(ActionEvent actionEvent) {
+        Movie selectedMovie = lstMovies.getSelectionModel().getSelectedItem();
+
+        if(selectedMovie != null){
+            try {
+                movieModel.deleteMovie(selectedMovie);
+            } catch (Exception err) {
+                displayError(err);
+            }
         }
     }
 
     public void handleClickUpdate(ActionEvent actionEvent) throws Exception {
         Movie selectedMovie = lstMovies.getSelectionModel().getSelectedItem();
 
-        if (selectedMovie != null){
-            selectedMovie.setTitle(txtMovieCreateTitle.getText());
-            selectedMovie.setYear(Integer.parseInt(txtMovieCreateYear.getText()));
+        selectedMovie.setTitle(txtMovieCreateTitle.getText());
+        selectedMovie.setYear(Integer.parseInt(txtMovieCreateYear.getText()));
 
+        if(selectedMovie != null){
             try {
                 movieModel.updateMovie(selectedMovie);
-            } catch (Exception e) {
-                displayError(e);
-            }
-        }
-    }
-
-    public void handleClickDelete(ActionEvent actionEvent) throws Exception {
-        Movie selectedMovie = lstMovies.getSelectionModel().getSelectedItem();
-
-        lstMovies.getItems().remove(selectedMovie);
-        if (selectedMovie != null){
-
-            try {
-                movieModel.deleteMovie(selectedMovie);
-            } catch (Exception e) {
-                displayError(e);
+            } catch (Exception err) {
+                displayError(err);
             }
         }
     }

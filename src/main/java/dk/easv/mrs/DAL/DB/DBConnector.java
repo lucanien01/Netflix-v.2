@@ -23,7 +23,7 @@ public class DBConnector {
         dataSource.setDatabaseName(databaseProperties.getProperty("Database"));
         dataSource.setUser(databaseProperties.getProperty("User"));
         dataSource.setPassword(databaseProperties.getProperty("Password"));
-        dataSource.setPortNumber(1433);
+        dataSource.setPortNumber(Integer.parseInt(databaseProperties.getProperty("Port")));
         dataSource.setTrustServerCertificate(true);
     }
 
